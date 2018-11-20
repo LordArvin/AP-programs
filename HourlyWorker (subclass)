@@ -1,0 +1,27 @@
+
+public class HourlyWorker extends Worker{
+	
+	public HourlyWorker(double payRate, String name1) {
+		pay = payRate;
+		name = name1;
+	}
+
+	@Override
+	String getWorkerName() {
+		return name;
+	}
+
+	@Override
+	double getPay() {
+		return pay;
+	}
+
+	@Override
+	double computePay(int hours) {
+		return pay*hours;
+	}
+	
+	private double pay;
+	private String name;
+
+}
