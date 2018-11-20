@@ -1,0 +1,121 @@
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Point2D;
+
+import javax.swing.JComponent;
+
+public class RegressionComponent extends JComponent{
+	
+	
+		public RegressionComponent(){
+		line = new RegressionLine();
+		p1 = null;
+		p2 = null;
+		p3 = null;
+		p4 = null;
+		p5 = null;
+	
+		
+		class MouseClickListener extends MouseAdapter{
+			
+			public void mousePressed(MouseEvent event){
+				
+				int x = event.getX();
+				int y = event.getY();
+				System.out.println(x + " " + y);
+				p = new Point2D.Double(event.getX(), event.getY());
+				
+				if(p1 == null){
+					p1 = new Point2D.Double(x, y);
+					line = new RegressionLine();
+					System.out.println(p1);
+				}
+				else if(p2 == null){
+					p2 = new Point2D.Double(x, y);
+					System.out.println(p2);
+				}
+				else if(p3 == null){
+					p3 = new Point2D.Double(x, y);
+					System.out.println(p3);
+
+				}
+				else if(p4 == null){
+					p4 = new Point2D.Double(x, y);
+					System.out.println(p4);
+
+				}
+				else if(p5 == null){
+					p5 = new Point2D.Double(x, y);
+					System.out.println(p5);
+
+				}
+				
+				line.plotPoint(x, y);
+				repaint();
+				
+			}
+			
+		}
+		
+		MouseClickListener listener = new MouseClickListener();
+		addMouseListener(listener);
+		 
+	}
+	
+	public void paintComponent(Graphics g){
+	
+		super.paintComponent(g);
+		Graphics2D g2 = (Graphics2D)g;
+		
+	//	System.out.println(p);
+		if(p != null){
+			plotPoint(g2, p);
+		}
+		if(p1 != null){
+			plotPoint(g2, p1);	
+			line.drawLine(g2, getWidth());
+
+		}
+		if(p2 != null){
+			plotPoint(g2, p2);
+		}
+		if(p3 != null){
+			plotPoint(g2, p3);
+		}
+		if(p4 != null){
+			plotPoint(g2, p4);
+		}
+		if(p5 != null){
+			plotPoint(g2, p5);
+			p1 = null;
+			p2 = null;
+			p3 = null;
+			p4 = null;
+			p5 = null;
+		}
+	}
+	
+	public void plotPoint(Graphics2D g2, Point2D.Double p){
+		double x = p.getX();
+		double y = p.getY();
+		
+		Ellipse2D.Double point = new Ellipse2D.Double(x - 3, y - 3, 6, 6);
+		g2.setColor(Color.black);
+		g2.draw(point);
+		g2.fill(point);
+		
+		
+	}
+	
+	private Point2D.Double p1;
+	private Point2D.Double p2;
+	private Point2D.Double p3;
+	private Point2D.Double p4;
+	private Point2D.Double p5;
+	private Point2D.Double p;
+	private RegressionLine line;
+}
