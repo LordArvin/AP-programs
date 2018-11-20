@@ -1,0 +1,128 @@
+
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+
+public class InterestCalculatorFrame extends JFrame{
+
+	public InterestCalculatorFrame(){
+		
+		JPanel topPanel = new JPanel();
+		topPanel.setLayout(new GridLayout(3, 2));
+		
+		JTextField intialBal = new JTextField();
+		
+		JTextField annual = new JTextField();
+		
+		JTextField numYears = new JTextField();
+		
+		topPanel.add(new JLabel("Initial Balance: ", SwingConstants.RIGHT));
+		topPanel.add(intialBal);
+		topPanel.add(new JLabel("Rate: ", SwingConstants.RIGHT));
+		topPanel.add(annual);
+		topPanel.add(new JLabel("Number of Years: ", SwingConstants.RIGHT));
+		topPanel.add(numYears);
+		
+		bottomTopPanel = new JPanel();
+		
+		amount = new JTextArea("", 2, 10);
+		amount.setEditable(false);
+		JLabel amountLabel = new JLabel("Amount: ");
+		JButton button = makeButton("Calculate", intialBal, annual, numYears);
+		
+		bottomTopPanel.add(button);
+		bottomTopPanel.add(amountLabel);
+		bottomTopPanel.add(amount);
+		
+		JPanel box1 = makeBox();
+		JPanel boxPanel = new JPanel();
+		boxPanel.add(box1);
+		
+		add(boxPanel, BorderLayout.WEST);
+		add(topPanel, BorderLayout.CENTER);
+		add(bottomTopPanel, BorderLayout.SOUTH);
+		
+		
+		
+		
+		
+		
+	}
+	
+	public JButton makeButton(String name, final JTextField bal, final JTextField annual, final JTextField year){
+		JButton button = new JButton(name);
+		
+		class ButtonListener implements ActionListener{
+
+			@Override
+			public void actionPerformed(ActionEvent event) {
+				balance = Double.parseDouble(bal.getText());
+				rate = Double.parseDouble(annual.getText());
+				years = Double.parseDouble(year.getText());
+				
+				double thing = calulcate();
+				amount.append(String.format("$%,1.2f%n", thing));	
+			}
+		}
+		list = new ButtonListener();
+		button.addActionListener(list);
+		
+		
+		
+		return button;
+	}
+	public JPanel makeBox(){
+		JPanel panel = new JPanel();
+		box = new JComboBox();
+		box.addItem("Simple Compound");
+		box.addItem("Annually");
+		box.addItem("Monthly");
+		box.addActionListener(list);
+		box.setEditable(false);
+		box.setVisible(true);
+		panel.add(box);
+		
+		return panel;
+	}
+	public double calulcate(){
+		double amount = 0;
+		if(box.getSelectedItem().equals("Simple Compound")){
+			amount = balance + balance * (rate/100) * years;
+		}
+		else if(box.getSelectedItem().equals("Annually")){
+			double r = rate/100;
+			amount = balance * Math.pow((1 + r), years);
+		}
+		else if(box.getSelectedItem().equals("Monthly")){
+			double r = rate/100;
+			double months = years;
+			amount = balance * Math.pow((1 + r/12), months);
+		}
+		
+		
+		return amount;
+		
+		
+	}
+	
+	
+	private JPanel bottomTopPanel;
+	private JPanel bottomBottomPanel;
+	private JTextArea amount;
+	private ActionListener list;
+	private JComboBox box;
+	private double balance;
+	private double rate;
+	private double years;
+	
+	
+}
