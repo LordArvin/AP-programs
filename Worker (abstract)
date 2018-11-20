@@ -1,0 +1,12 @@
+
+public abstract class Worker {
+	
+	abstract String getWorkerName(); //gets the name of the worker
+	abstract double getPay(); //gets the pay of the worker
+	abstract double computePay(int hours); //figures out the pay
+	
+	
+	
+	
+
+}
