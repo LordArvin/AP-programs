@@ -1,0 +1,18 @@
+import javax.swing.JFrame;
+
+public class TriangleTest{
+	public static void main (String [] args){
+	
+	JFrame frame = new JFrame();
+	
+	frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
+	frame.setSize(500, 500);
+	frame.setTitle("Triangle Clicker");
+	
+	TriangleComponent component = new TriangleComponent();
+	frame.add(component);
+	frame.setVisible(true);
+	
+}
+
+}
