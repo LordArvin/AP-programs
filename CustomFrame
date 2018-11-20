@@ -1,0 +1,81 @@
+port java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+public class CustomFrame extends JFrame{
+
+	public CustomFrame(JPanel p, boolean whether){ //initalizes the nackground panel to the instance field
+												   //makes the panel for the labels and text fields
+		panel = p;
+		setSize(200, 200);
+		setVisible(whether);
+		setTitle("Custom Color");
+		
+		JPanel textPanel = new JPanel();
+		JButton button = new JButton("OK");
+		textPanel.setLayout(new GridLayout(3, 2));			//can use a JLabel to display message
+		
+		final JTextField red = new JTextField();
+		final JTextField blue = new JTextField();
+		final JTextField green = new JTextField();
+		
+		
+		JLabel redLabel = new JLabel("Red Amount");
+		JLabel blueLabel = new JLabel("Blue Amount");
+		JLabel greenLabel = new JLabel("Green Amount");
+		
+		JOptionPane.showMessageDialog(null, "Values must be between 0 and 255"); //displays message beforehand
+		
+		class ButtonListener implements ActionListener{
+
+			@Override
+			public void actionPerformed(ActionEvent event) { //gets the RGB values, sends them over and changes the background using the instance field
+				double redVal = Double.parseDouble(red.getText());
+				double blueVal = Double.parseDouble(blue.getText());
+				double greenVal = Double.parseDouble(green.getText());
+				
+				
+				if((redVal < 0 || blueVal < 0 || greenVal < 0) || (redVal > 255 || blueVal > 255 || greenVal > 255)){
+					JOptionPane.showMessageDialog(null, "Values must be between 0 and 255"); // displays message if amount is incorrect
+				}
+				else{
+					customColor((int)redVal, (int)blueVal, (int)greenVal);
+					setVisible(false);
+				}
+			}
+			
+		}
+		ActionListener l = new ButtonListener();
+		button.addActionListener(l);
+		
+		textPanel.add(redLabel);
+		textPanel.add(red);
+		textPanel.add(blueLabel);
+		textPanel.add(blue);
+		textPanel.add(greenLabel);
+		textPanel.add(green);
+		add(textPanel, BorderLayout.CENTER);
+		add(button, BorderLayout.SOUTH);
+		
+		
+		
+		
+	}
+
+	public void customColor(int red, int blue, int green){ //makes the custom color based on RGB values
+		Color customColor = new Color(red, blue, green);
+		panel.setBackground(customColor);
+		
+	}
+	
+	
+	private JPanel panel;
+}
