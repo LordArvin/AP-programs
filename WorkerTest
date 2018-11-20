@@ -1,0 +1,28 @@
+
+public class WorkerTest {
+	
+	public static void main (String [] args){
+	
+		double payRate = 35;
+		String name1 = "Harry";
+		double salary = 1800;
+		String name2 = "Sally";
+		HourlyWorker harry = new HourlyWorker(payRate, name1);
+		SalaryWorker sally = new SalaryWorker(salary, name2);
+		
+
+		System.out.println("The salaried worker is paid at a $" + salary/40 + " dollar rate");
+		System.out.println("The hourly worker is paid at a $" + payRate + " dollar rate");
+		System.out.println();
+		System.out.println("Pay for 30 hours");
+		System.out.println("       Salaried Worker " + sally.getWorkerName() + ": $" + sally.computePay(30));
+		System.out.println("       Hourly Worker " + harry.getWorkerName() + ": $" + harry.computePay(30));
+		System.out.println();
+		System.out.println("Pay for 50 hours");
+		System.out.println("       Salaried Worker " + sally.getWorkerName() + ": $" + sally.computePay(50));
+		System.out.println(("      Hourly Worker " + harry.getWorkerName() + ": $" + harry.computePay(50)));
+		
+		
+	}
+
+}
