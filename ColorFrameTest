@@ -1,0 +1,18 @@
+
+import javax.swing.JFrame;
+
+public class ColorFrameTest {
+	
+	public static void main (String args []){
+		
+		
+		JFrame frame = new ColorFrame();
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setTitle("Color Changer");
+		frame.setSize(500, 500);
+		frame.setVisible(true);
+		
+		
+	}
+
+}
