@@ -1,0 +1,39 @@
+import java.awt.Graphics2D;
+import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
+
+public class RegressionLine {
+	
+	public void plotPoint(double x, double y){
+		n++;
+		sum_x += x;
+		sum_y += y;
+		sum_x2 += x*x;
+		sum_xy += x*y;
+		
+		
+	}
+	
+	public void drawLine(Graphics2D g2, double width){
+		double xAvg = sum_x / n;
+		double yAvg = sum_y / n;
+		if(n == 1)
+			m = 0;
+		else
+			m = (sum_xy - n *xAvg *yAvg) / (sum_x2 - n*xAvg *xAvg);
+		double y1 = yAvg - (m * xAvg);
+		double x2 = width - 1;
+		double y2 = yAvg + (m * (x2 - xAvg));
+		
+		Line2D.Double line = new Line2D.Double(new Point2D.Double(0, y1), new Point2D.Double(x2, y2));
+		g2.draw(line);
+	}
+  
+	private double sum_x;
+	private double sum_y;
+	private double sum_xy;
+	private double sum_x2;
+	private double m;
+	private double n;
+
+}
