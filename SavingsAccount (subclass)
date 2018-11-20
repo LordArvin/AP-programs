@@ -1,0 +1,38 @@
+
+public class SavingsAccount extends BankAccount{
+	
+	public SavingsAccount(double balance, double interest){
+		minBalance = balance; // set the minimum balance to the amount assigned to the account object
+		interestRate = interest; // same thing but with the interest
+	}
+	public double addInterest(){
+		return minBalance + (minBalance*interestRate); // takes the balance and adds whatever interest to i
+	}
+	
+	@Override
+	public void deposit(double amount) {
+		minBalance = minBalance + amount;
+	}
+	@Override
+	public void withdraw(double amount) {
+		minBalance = minBalance - amount;
+	}
+	@Override
+	public double getBalance() {
+		return minBalance;
+	}
+	@Override
+	public void transfer(BankAccount other, double amount) {
+		withdraw(amount);
+		other.deposit(amount);
+	}
+	@Override
+	public String toString() {
+		return "Balance: " + String.format("$%1.2f", minBalance);
+	}
+	
+	
+	private double minBalance;
+	private double interestRate;
+
+}
