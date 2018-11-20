@@ -1,0 +1,112 @@
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+public class ColorFrame extends JFrame{
+
+	public ColorFrame(){
+		
+		class ChoiceListener implements ActionListener{ //listener for all choice options; used for the drop down menu
+			boolean weth = false; // boolean to see if the custom option was chosen
+			
+			@Override
+			public void actionPerformed(ActionEvent event) { //changes backgrond color according to the color chosen
+				System.out.println(backChanger.getSelectedItem());
+				if(backChanger.getSelectedItem().equals("Black")){
+					back.setBackground(Color.black);
+				}
+				else if(backChanger.getSelectedItem().equals("White")){
+					back.setBackground(Color.white);
+				}
+				else if(backChanger.getSelectedItem().equals("Custom")){
+					weth = true;
+					JFrame custom = new CustomFrame(back, weth);
+				}
+			}
+		}
+		list = new ChoiceListener(); //adds the listener for the menu options
+		createControlPanel();
+		pack();
+		
+	}
+	public void createControlPanel(){ //makes the panel for the buttons on the bottom and the menu on the left
+		JPanel drop = createDropDown();
+		JButton redButton = makeButton("Red");
+		JButton blueButton = makeButton("Blue");
+		JButton greenButton = makeButton("Green");
+		
+		back = new JPanel();
+		colorPanel = new JPanel();
+		JPanel controlPanel = new JPanel();
+		
+		controlPanel.add(drop);
+		
+		colorPanel.setLayout(new GridLayout(1, 3));
+		colorPanel.add(redButton);
+		colorPanel.add(greenButton);
+		colorPanel.add(blueButton);
+		
+		add(colorPanel, BorderLayout.SOUTH);
+		add(controlPanel, BorderLayout.WEST);
+		add(back, BorderLayout.CENTER);
+	}
+	public JPanel createDropDown(){ //creates the panel for the drop down menu and adds the items to it
+		
+		JPanel panel = new JPanel();
+		backChanger = new JComboBox();
+		backChanger.addItem("Black");
+		backChanger.addItem("White");
+		backChanger.addItem("Custom");
+		backChanger.setEditable(false);
+		backChanger.addActionListener(list);
+		
+		panel.add(backChanger);
+		
+		return panel;
+	}
+
+	public JButton makeButton(final String name){
+	/*	
+	makes a button and checks to see if the name of the button is a color
+	if it is then the background changes to that color
+	*/
+		JButton button = new JButton(name);
+		
+		class ButtonListener implements ActionListener{
+
+			@Override
+			public void actionPerformed(ActionEvent event) {
+				if(name.equals("Red"))
+					back.setBackground(Color.red);
+				else if(name.equals("Blue"))
+					back.setBackground(Color.blue);
+				else if(name.equals("Green"))
+					back.setBackground(Color.green);
+			}
+		}
+		ActionListener l = new ButtonListener();
+		button.addActionListener(l);
+		return button;
+	}
+	
+	
+	
+	private CustomFrame custom;
+	private JPanel colorPanel;
+	private JPanel back;
+	private JComboBox backChanger;
+	private ActionListener list;
+	private boolean weth;
+	
+	
+	
+	
+}
+
