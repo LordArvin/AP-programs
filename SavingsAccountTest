@@ -1,0 +1,46 @@
+
+public class SavingsAccountTest {
+	public static void main (String [] args){
+		
+		double balance = 2000;
+		double inter = 0.04;
+		
+		SavingsAccount acc = new SavingsAccount(balance, inter);
+		System.out.println("Intial Amount: ");
+		System.out.println("____________________________");
+		System.out.println(acc.toString() + " Rate: " + inter*100 + "%");
+		System.out.println("Minimum: " + acc.getBalance());
+		System.out.println("____________________________");
+		
+		System.out.println();
+
+		System.out.println("Withdraw $500: ");
+		acc.withdraw(500);
+		System.out.println("____________________________");
+		System.out.println(acc.toString() + " Rate: " + inter*100 + "%");
+		System.out.println("Minimum: " + acc.getBalance());
+		System.out.println("____________________________");		
+		
+		System.out.println();
+		
+		System.out.println("Deposit $4000: ");
+		acc.deposit(4000);
+		System.out.println("____________________________");
+		System.out.println(acc.toString() + " Rate: " + inter*100 + "%");
+		System.out.println("Minimum: " + (acc.getBalance() - 4000));
+		System.out.println("____________________________");		
+		
+		System.out.println();
+		
+		System.out.println("Add Interest: ");
+		acc.addInterest();
+		System.out.println("____________________________");
+		System.out.println(acc.toString() + " Rate: " + inter*100 + "%");
+		System.out.println("Minimum: " + acc.getBalance());
+		System.out.println("____________________________");		
+		}	
+	
+	// you have to override something so that the interest uses the 1500 not the 5500, after that you should be good
+	
+
+}
