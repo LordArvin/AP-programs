@@ -1,0 +1,16 @@
+
+import javax.swing.JFrame;
+
+public class InterestCalculatorTest {
+	
+	public static void main (String [] args){
+		
+		JFrame frame = new InterestCalculatorFrame();
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setSize(300, 200);
+		frame.setVisible(true);
+		
+		
+	}
+
+}
