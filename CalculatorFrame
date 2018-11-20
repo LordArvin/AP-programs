@@ -1,0 +1,138 @@
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.border.EtchedBorder;
+
+public class CalculatorFrame extends JFrame{
+	
+	public CalculatorFrame(){
+		
+		myFont = new Font("SanSerif", Font.BOLD, 24);
+		createControlPanel();
+		pack();
+		
+		
+	}
+
+	//this method creates the control panel with the text field and buttons
+	public void createControlPanel(){
+		JPanel operations = new JPanel();
+		operations.setLayout(new GridLayout(4, 4));
+		
+		operations.add(makeDigitButton("7"));
+		operations.add(makeDigitButton("8"));
+		operations.add(makeDigitButton("9"));
+		operations.add(makeOperatorButton("/"));
+		operations.add(makeDigitButton("4"));
+		operations.add(makeDigitButton("5"));
+		operations.add(makeDigitButton("6"));
+		operations.add(makeOperatorButton("*"));
+		operations.add(makeDigitButton("1"));
+		operations.add(makeDigitButton("2"));
+		operations.add(makeDigitButton("3"));
+		operations.add(makeDigitButton("-"));
+		operations.add(makeDigitButton("0"));
+		operations.add(makeDigitButton("."));
+		operations.add(makeOperatorButton("="));
+		operations.add(makeOperatorButton("+"));
+		
+		JPanel displayPanel = new JPanel();
+		display = new JTextField("0", 15);
+		display.setHorizontalAlignment(JTextField.RIGHT);
+		display.setBackground(Color.white);
+		display.setFont(new Font("Dialog", Font.BOLD, 14));
+		display.setBorder(new EtchedBorder( ));
+		display.setEditable(false);
+		displayPanel.add(display);
+		
+		add(displayPanel, BorderLayout.NORTH);
+		add(operations, BorderLayout.CENTER);
+		
+		
+		lastValue = 0;
+		theOperator = "=";
+		start = true;
+	}
+	
+	//makes the button for the digits, like 7, 8, 9, etc
+	public JButton makeDigitButton(final String digit){
+		JButton button = new JButton(digit);
+		button.setBackground(Color.white);
+		button.setFont(myFont);
+		
+		class ButtonListener implements ActionListener{
+
+			@Override
+			public void actionPerformed(ActionEvent event) {
+				if(start)
+					display.setText(digit);
+				else
+					display.setText(display.getText() + digit);
+				start = false;
+			}
+			
+			
+		}
+		ButtonListener l = new ButtonListener();
+		button.addActionListener(l);		
+		return button;
+	}
+	
+	//makes the actions for the buttons
+	public JButton makeOperatorButton(final String op){
+		JButton button = new JButton(op);
+		button.setBackground(Color.white);
+		button.setFont(myFont);
+		
+		class ButtonListener implements ActionListener{
+
+			@Override
+			public void actionPerformed(ActionEvent event) {
+				if(!start){
+					
+					double x = Double.parseDouble(display.getText());
+					calculate(x);
+					start = true;
+					theOperator = op;
+					
+				}
+			}
+
+			private void calculate(double x) {
+				if(theOperator.equals("+"))
+					lastValue = x + lastValue;
+				else if(theOperator.equals("-"))
+					lastValue -= x;
+				else if(theOperator.equals("*"))
+					lastValue = x * lastValue;
+				else if(theOperator.equals("/"))
+					lastValue = lastValue / x;
+				else if(theOperator.equals("="))
+					lastValue = x;
+				
+				display.setText("" + lastValue);
+			}
+			
+		}
+		ButtonListener l = new ButtonListener();
+		button.addActionListener(l);
+		return button;
+	}
+	
+	
+	
+	private JTextField display;
+	private double lastValue;
+	private String theOperator;
+	private boolean start;
+	private Font myFont;
+}
