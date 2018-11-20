@@ -1,10 +1,120 @@
-public class BankAccount{
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
 
-  public static void main (String []){
-  
-  
-  
-  
-  
-  }
+import javax.swing.JComponent;
+
+public class TriangleComponent extends JComponent{
+	
+	public TriangleComponent(){
+	
+		class MousePressListener extends MouseAdapter {
+			
+			public void mouseClicked(MouseEvent event){
+				
+				p = new Point2D.Double(event.getX(), event.getY());
+				System.out.println("Clicked!");
+				if(p1 == null){
+					double x = event.getX();
+					double y = event.getY();
+					p1 = new Point2D.Double(x, y);
+				}
+				else if(p2 == null){
+					double x = event.getX();
+					double y = event.getY();
+					p2 = new Point2D.Double(x, y);
+				}
+				else if(p3 == null){
+					double x = event.getX();
+					double y = event.getY();
+					p3 = new Point2D.Double(x, y);
+				}
+				repaint();
+				
+			}
+			
+		}
+		
+		MouseListener listener = new MousePressListener();
+		addMouseListener(listener);
+		
+		
+	}
+	
+	
+	public void paintComponent(Graphics g){
+		Graphics2D g2 = (Graphics2D)g;
+		
+		if(p1 != null && p2 != null){
+			drawLine(p1, p2, g2);
+		}
+		if(p != null){
+			plotPoint(p, g2);
+		}
+		if(p1 != null && p2 != null && p3 != null){			
+
+			buildTriangle(p1, p2, p3, g2);
+		}
+	//	System.out.println(p1 + " " + p2 + " " + p3);
+	}
+	
+	public void buildTriangle(Point2D.Double point1, Point2D.Double point2, Point2D.Double point3, Graphics2D g2){
+		
+//		if(p1 != null && p2 != null && p3 != null){			
+			
+			
+			drawLine(point1, point2, g2);
+			drawLine(point2, point3, g2);
+			drawLine(point3, point1, g2);
+			
+			p1 = null;
+			p2 = null;
+			p3 = null;
+
+			
+//		}
+		
+	}
+	
+	public void plotPoint(Point2D.Double p, Graphics2D g2){
+		double x = p.getX();
+		double y = p.getY();
+		Ellipse2D.Double point = new Ellipse2D.Double(x - 3, y - 3 , 6, 6);
+		g2.setColor(Color.black);
+		g2.draw(point);
+		g2.fill(point);
+	}
+
+	public void drawLine(Point2D.Double p, Point2D.Double p1, Graphics2D g2){
+		
+		double x = p.getX();
+		double y = p.getY();
+		
+		double x2 = p1.getX();
+		double y2 = p1.getY();
+		
+		plotPoint(p, g2);
+		plotPoint(p1, g2);
+		
+		Point2D.Double p4 = new Point2D.Double((x), (y));
+		Point2D.Double p5 = new Point2D.Double((x2), (y2));
+		Line2D.Double line = new Line2D.Double(p4, p5);
+		g2.draw(line);
+	}
+	
+	
+	
+	private Point2D.Double p1;
+	private Point2D.Double p2;
+	private Point2D.Double p3;
+	private Point2D.Double p;
+	
+
+
 }
