@@ -1,0 +1,69 @@
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+public class ClockTest {
+	
+	public static void main (String [] args){
+		
+		JFrame frame = new JFrame();
+		frame.setSize(500, 500);
+	
+		final JTextField hourField = new JTextField(5);
+		final JTextField minField = new JTextField(5);
+		
+		final JLabel hlabel = new JLabel("Hours = ");
+		final JLabel minlabel = new JLabel("Minutes = ");
+		
+		JButton drawButton = new JButton("Draw");
+		double radius = (frame.getHeight()) * 0.8;
+		final ClockComponent comp = new ClockComponent(h1, m1, (frame.getWidth()-radius)/2, (frame.getHeight()-radius)/2, radius);
+		
+		class DrawButtonListener implements ActionListener{
+
+			public void actionPerformed(ActionEvent event) {
+				double h = Integer.parseInt(hourField.getText());
+				double m = Integer.parseInt(minField.getText());
+				System.out.println(m);
+				System.out.println(h);
+				
+				h1 = h;
+				m1 = m;
+				comp.setTime(h, m);
+			}
+				
+		}
+		
+		ActionListener l = new DrawButtonListener();
+		drawButton.addActionListener(l);	
+		
+		frame.add(comp);
+		frame.setVisible(true);
+		
+		JPanel panel = new JPanel();
+		panel.add(hlabel);
+		panel.add(hourField);
+		panel.add(minlabel);
+		panel.add(minField);
+		panel.add(drawButton);
+		
+		
+		JFrame controls = new JFrame();
+		controls.pack();		
+		controls.setSize(500, 100);
+		controls.setContentPane(panel);
+		controls.setVisible(true);
+		
+		
+		
+		
+	}
+	
+	private static double h1;
+	private static double m1;
+
+}
