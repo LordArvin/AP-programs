@@ -1,0 +1,95 @@
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Line2D;
+import javax.swing.JApplet;
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+public class ClockComponent extends JPanel{
+	
+	public ClockComponent(double h1, double m1, double x1, double y1, double r){
+		hour = h1;
+		minutes = m1;
+		x = x1;
+		y = y1;
+		radius = r;
+		
+	}
+	
+	public void paintComponent(Graphics g){
+		super.paintComponent(g);
+		Graphics2D g2 = (Graphics2D)g;
+		
+		Ellipse2D.Double clock = new Ellipse2D.Double(x, y, radius, radius);
+		g2.draw(clock);
+
+		for(int i = 0; i<12; i++){
+			
+		drawDots(((x-radius*0.4)+ radius * Math.cos(Math.toRadians(240-30*i)))/2, ((y-radius*0.4) + radius * Math.sin(Math.toRadians(240-30*i)))/2, g2);
+		
+		}
+		
+		drawHands(hour, minutes, g2);
+		System.out.println("This has been called!");
+	}
+	
+	public void drawHands(double h, double min, Graphics2D g2){
+		
+		h-=7;
+	//	min++;
+		min = (min/10)*2;
+
+		double x = radius/2+this.x;
+		double y = radius/2+this.y;
+		
+		double hAngle = -((240 - 30 * h ) + min / 2);
+		double mAngle = (270 + min * 30);
+		
+		
+		
+		double x1 = (x + (radius*0.1) * Math.cos(Math.toRadians(hAngle)));
+		double x2 = (x + (radius*0.1) * Math.sin(Math.toRadians(hAngle)));
+		
+		double y1 = (y + (radius*0.3) * Math.cos(Math.toRadians(mAngle)));
+		double y2 = (y + (radius*0.3) * Math.sin(Math.toRadians(mAngle)));
+		
+//		double dif1 = radius/2 + radius * Math.sin(Math.toRadians(-180-30));
+//		double dif2 = radius/2 + radius * Math.cos(Math.toRadians(-180-30));
+		
+		g2.draw(new Line2D.Double(x, y, y1 , y2)); // minute hand
+		g2.setColor(Color.red);
+		g2.draw(new Line2D.Double(x, y, x1, x2)); //hour hand
+		//repaint();
+	}
+	
+	public void setTime(double h, double m){
+		hour = h;
+		minutes = m;
+		repaint();
+	}
+	
+	public void drawDots(double x, double y, Graphics2D g2){
+		
+		Ellipse2D.Double dot = new Ellipse2D.Double(x + 300, y + 300, 10, 10);
+		g2.draw(dot);
+		g2.setColor(Color.BLACK);
+		g2.fill(dot);
+		
+		
+	}
+	
+	private double hour;
+	private double minutes;
+	private double x;
+	private double y;
+	private double radius;
+
+}
