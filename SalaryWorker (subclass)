@@ -1,0 +1,25 @@
+
+public class SalaryWorker extends Worker{
+
+	public SalaryWorker(double salary, String name2) {
+		pay = salary;
+		name = name2;
+	}
+	@Override
+	String getWorkerName() {
+		return name;
+	}
+	@Override
+	double getPay() {
+		return pay;
+	}
+	@Override
+	double computePay(int hours) {
+		return pay;
+	}
+	
+	
+	private String name;
+	private double pay;
+	
+}
