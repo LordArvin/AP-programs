@@ -1,0 +1,17 @@
+
+import javax.swing.JFrame;
+
+public class FiftyCloudsTest {
+	public static void main (String [] args){
+		
+		JFrame frame = new JFrame();
+		frame.setTitle("Clouds");
+		frame.setVisible(true);
+		frame.setSize(500, 500);
+		
+		FiftyCoulds comp = new FiftyCoulds();
+		frame.add(comp);
+		
+	}
+
+}
