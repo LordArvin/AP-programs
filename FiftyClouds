@@ -1,6 +1,7 @@
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.geom.Ellipse2D;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -8,28 +9,40 @@ import javax.swing.JPanel;
 
 public class FiftyCoulds extends JComponent{
 	
-	public FiftyCoulds(){
+	public FiftyCoulds(JButton b, JPanel p){
 		
-		JPanel buttonPanel = new JPanel();
+		button = b;
+		control = p;
 		
 	}
 	
-	public JButton makeButton(String name){ /*add the JPanels and the button listener to the Test class and send the values over
-						the constructor*/
-		JButton button = new JButton(name);
-		
-		class ButtonListener implements ActionListener{
+	public FiftyCoulds(int width, int height, double x1, double y1) {
+		w = width;
+		h = height;
+		x = x1;
+		y = y1;
+	}
 
-			@Override
-			public void actionPerformed(ActionEvent event) {
-				
-			}
-			
-		}
-
+	public void paintComponent(Graphics g){
+		Graphics2D g2 = (Graphics2D)g;
 		
-		return button;
-		
+		makeClouds(w, h, x, y, g2);
 		
 	}
+	public void makeClouds(int w, int h, double x, double y, Graphics2D g2){
+		for(int i = 1; i < 50; i++){
+			Ellipse2D.Double circ = new Ellipse2D.Double(w, h, x, y);
+			g2.draw(circ);
+			
+		}
+		
+	}
+	
+	
+	private JButton button;
+	private JPanel control;
+	private int w;
+	private int h;
+	private double x;
+	private double y;
 }
