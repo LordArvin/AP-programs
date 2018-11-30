@@ -1,17 +1,53 @@
 
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Random;
+
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 public class FiftyCloudsTest {
 	public static void main (String [] args){
 		
-		JFrame frame = new JFrame();
+		final JFrame frame = new JFrame();
 		frame.setTitle("Clouds");
 		frame.setVisible(true);
 		frame.setSize(500, 500);
 		
-		FiftyCoulds comp = new FiftyCoulds();
-		frame.add(comp);
+		final JButton button = new JButton("Draw");
+		final JPanel panel = new JPanel();
 		
+		class ButtonListener implements ActionListener{
+
+			@Override
+			public void actionPerformed(ActionEvent event) {
+				System.out.println("Clicked");
+
+				FiftyCoulds comp = new FiftyCoulds(button, panel);
+				frame.add(comp);
+				
+				ArrayList array = new ArrayList();
+				
+				for(int i = 1; i < 50; i++){
+					Random randomizer = new Random();
+					double x = randomizer.nextInt(50) + 1;
+					double y = randomizer.nextInt(50) + 1;
+					array.add(new FiftyCoulds(10, 10, x, y)); //send over to contrscutor and have constructor call a method to create clouds
+				}
+				
+				//call a method here that makes the circle objects and THAT method will call another method to draw the objects...i think
+
+			}
+			
+		}
+		ActionListener l = new ButtonListener();
+		button.addActionListener(l);
+		
+		panel.add(button);
+		frame.add(panel, BorderLayout.NORTH);
 	}
 
 }
