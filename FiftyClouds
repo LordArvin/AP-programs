@@ -14,7 +14,8 @@ public class FiftyCoulds extends JComponent{
 		
 	}
 	
-	public JButton makeButton(String name){
+	public JButton makeButton(String name){ /*add the JPanels and the button listener to the Test class and send the values over
+						the constructor*/
 		JButton button = new JButton(name);
 		
 		class ButtonListener implements ActionListener{
