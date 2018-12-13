@@ -2,6 +2,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Rectangle2D;
 
 import javax.swing.JPanel;
 
@@ -25,20 +27,33 @@ public class MyPanel extends JPanel
 		Graphics2D g2 = (Graphics2D)g;
 		
 		double count = numC + numS;  //let count = the number of objects to be drawn
-		... // let size = the minimum of the width and height of the panel
-		... // then let gap between one circle or square and the next one is:  0.4 * size / count
+		double size = Math.min(getHeight(), getWidth()); // let size = the minimum of the width and height of the panel
+		double gap = 0.4 * size / count;// then let gap between one circle or square and the next one is:  0.4 * size / count
 		//the above line assumes that the drawing will take place on the center 80% of the panel
 		
 		// determine the x and y coordinates of the center of the panel
-		...
-		...
+		double x = getWidth()/2;
+		double y = getHeight()/2;
 		
 		// within a loop:  draw the required number of circles
-		...
+		if(numC > 0) {
+			for(int i = 1; i <= count; i++){
+			double r = size/2 - (gap*i);
+			g2.draw(new Ellipse2D.Double(x - r, y - r, r*2, r*2));
+			
+			}
+		}
 		
 		
 		// within a loop:  draw the required number of squares
-		...
+		if(numS > 0) {
+			for(int i = 1; i <= count; i++) {
+				double r = size/2 - (gap*i);
+				
+				g2.draw(new Rectangle2D.Double(x - r, y - r, r*2, r*2));
+
+			}
+		}
 	}
 	
 	/**
