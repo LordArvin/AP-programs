@@ -1,0 +1,100 @@
+
+import java.util.Random;
+
+public class Island {
+	
+	public Island(){
+		
+		island = new int[9][14];
+		/*
+		for(int row = 0; row < 9; row++){
+			for(int column = 0; column < 14; column++){
+				
+				if(row == 0 || column==0||(row==9  || column==14)){
+					
+					generator = new Random();
+					int n = generator.nextInt(100) + 1;
+					
+					if(n > PERCENT_BRIDGES){
+						island[row][column] = -1;
+					}
+				}
+			}
+		}*/
+		
+		generator = new Random();
+		int n;
+		
+		for(int i = 0;i < 14;i++){
+			
+			n = generator.nextInt(100)+1;
+			if(n <= PERCENT_BRIDGES){
+				island[0][i] = -1;
+			}
+			n = generator.nextInt(100)+1;
+			if(n <= PERCENT_BRIDGES){
+				island[8][i] = -1;
+			}
+			
+			if(i<=8){
+				n = generator.nextInt(100)+1;
+				if(n <= PERCENT_BRIDGES){
+					island[i][0] = -1;
+				}
+				n = generator.nextInt(100)+1;
+				if(n <= PERCENT_BRIDGES){
+					island[i][13] = -1;
+				}
+			}
+		}
+		printIsland();
+
+	}
+	
+	
+	
+	public void printIsland(){
+
+		for(int row = 0; row < 9; row++){
+			for(int column = 0; column < 14; column++){
+				
+			if((row == 0 || column == 0)||(row == 8 || column==13)){
+				
+				if(island[row][column] == -1){
+					System.out.print("  W");
+				}
+				else if(island[row][column] == 0){
+					System.out.print("  B");
+				}
+				continue;
+			}
+			System.out.print(String.format("%3d", island[row][column]));
+			}
+			System.out.println();
+			
+		}
+		
+		}
+		
+			
+				
+			
+		
+
+	
+	public String moveAbout(){
+		
+		
+		
+		return null;
+	}
+	
+	
+	private int[][] island;
+	private int moves;
+	private int mRow;
+	private int mCol;
+	private Random generator;
+	private final int PERCENT_BRIDGES  = 30;
+	
+}
