@@ -5,8 +5,6 @@ public class Island {
 	
 	public Island(){
 		
-		mRow1 = 4;
-		mCol1 = 7;
 		island = new int[9][14];
 		generator = new Random();
 		int n;
@@ -28,13 +26,12 @@ public class Island {
 					island[i][0] = -1;
 				}
 				n = generator.nextInt(100)+1;
-				if(n <= PERCENT_BRIDGES){
+				if(n >= PERCENT_BRIDGES){
 					island[i][13] = -1;
 				}
 			}
 		}
 		printIsland();
-		
 	
 	}
 	
@@ -43,9 +40,10 @@ public class Island {
 	public void printIsland(){
 
 		for(int row = 0; row < 9; row++){
+			
 			for(int column = 0; column < 14; column++){
 				
-			if((row == 0 || column == 0)||(row == 8 || column==13)){
+			if((row == 0 || column == 0)||(row == 8 || column == 13)){
 				
 				if(island[row][column] == -1){
 					System.out.print("  W");
@@ -53,13 +51,20 @@ public class Island {
 				else if(island[row][column] == 0){
 					System.out.print("  B");
 				}
+				else {
+					System.out.print("  THE NUMERO ES: "+island[row][column]);
+				}
 				continue;
 			}
 			System.out.print(String.format("%3d", island[row][column]));
 			}
-			System.out.println(" " + moveAbout());
+			moveAbout();
+			
+			System.out.println(" ");
+			
 			
 		}
+		System.out.println(moveAbout());
 		System.out.println();
 		
 		}
@@ -71,74 +76,75 @@ public class Island {
 
 	
 	public String moveAbout(){
-		
-		String state = "Searching";
-		mRow1 = 4;
-		mCol1 = 7;
-		
-		int row = mRow1;
-		int col = mCol1;
-		
-	for(int i = 0; i < 50; i++) {
-		generator = new Random();
-		int n = generator.nextInt(4) + 1;
-		
-		if(n == 1 && (row < 8 && row > 0) && (col < 15 && col > 0)) {
-			island[row][col] = island[row ][col] + 1; // the spot one above it increases by one plus the amount that was there before :)
-			row = row + 1;
+				
+		int row = 4;
+		int col = 7;
 
-			moves++;
-		}
-		else if(n == 2 && (row < 8 && row > 0) && (col < 15 && col > 0)) {
-			island[row][col] = island[row][col] + 2;
-			col = col + 1;			
+		for(int i = 0; i < 50; i++) {
+			generator = new Random();
+			int n = generator.nextInt(4) + 1;
 			
-			moves++;
+			if(	moves < 50) {
+				if(!(row == 0 || col == 0)||(row == 8 || col == 13)){
+					
+					if(n == 1) {
+						island[row][col] = moves; 
+						row++;
+						
+					}
+					else if(n == 2) {
+						island[row][col] = moves;
+						col++;		
+						
+					}
+					else if(n == 3) {
+						island[row][col] = moves;
+						row--;
+						
+					}
+					else if(n == 4) {
+						island[row][col] = moves;
+						col--;
+						
+					}
+				} 		
+				moves++;
+			}
+		
+		if(row == 0 || row == 8 || col == 0 || col == 13){
+	  		if(island[row][col] == -1) {
+	  			return "Drowned on turn " + moves;
+			}
+	  		else if(island[row][col] == 0){
+	  			return "Escaped on turn " + moves;
+	  		}
+	  		moves = 51;
 		}
-		else if(n == 3 && (row < 8 && row > 0) && (col < 15 && col > 0)) {
-			island[row][col] = island[row][col] + 3;
-			row = row - 1;
-			
-			moves++;
-		}
-		else if(n == 4 && (row < 8 && row > 0) && (col < 15 && col > 0)) {
-			island[row][col] = island[row][col] + 4;
-			col = col - 1;
-			
-			moves++;
-
+		else if(moves >= 50){
+			moves = 0;
+				return "starved";
+				
 		}
 		
-		if(island[row][col] == -1 && (row == 0 || row == 9) && (col == 0 || col == 13)) {
-			state = "The mouse has drowned on turn " + (moves - 1) + ":(";
-		}
-		else if(island[row][col] == 0 && (row == 0 || row == 8) && (col == 0 || col == 13))
-			state = "The mouse has escaped on turn " + (moves - 1) + ":D";
-	
-		else if(state.equalsIgnoreCase("Searching") && moves > 49 && row < 9 && row > 0 && col > 0 && col < 15) {
-			state = "The mouse has starved on turn " + moves + " :(";
 			
-		}
+	}
 		
-		else if(state.equalsIgnoreCase("Drowned")) {
-			state = "The mouse has drowned :(";
-		}
-		else if(state.equalsIgnoreCase("Escaped")) {
-			state = "The mouse has escaped :D";
-		}
 		
-	
-	} // ???????????????????????????????????????????????????????? IDK ???????????????????????????????????????????????????????????????
-	
-		return state;
+		return "FAIL";
 	}
 	
+	public void printStats(int x, int y, int z){
+		System.out.println("escapes: " + z);
+		System.out.println("starves: " + y);
+		System.out.println("drowns: " + z);
+		
+	}
 	
+
 	private int[][] island;
 	private int moves;
-	private int mRow1;
-	private int mCol1;
 	private Random generator;
 	private final int PERCENT_BRIDGES  = 30;
-	
+
 }
+
