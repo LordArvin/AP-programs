@@ -1,0 +1,152 @@
+import java.awt.BorderLayout;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.util.Scanner;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+
+public class PokerFrame extends JFrame{
+	
+	public PokerFrame() {
+		
+		
+		pokerTestButton = makeButton("Poker Test");
+		pokerSimulationButton = makeButton("Poker Simulation");
+		controlPanel = new JPanel();
+		display = new JTextArea();
+		controlPanel.add(pokerSimulationButton);
+		controlPanel.add(pokerTestButton);
+		add(controlPanel, BorderLayout.NORTH);
+		add(display);
+		
+	}
+	
+	public JButton makeButton(String name) {
+		
+		JButton button = new JButton(name);
+		
+		class ButtonListener implements ActionListener{
+
+			@Override
+			public void actionPerformed(ActionEvent event) {
+				
+				display.setText("");
+				display.setFont(new Font("Courier New", Font.BOLD, 13));
+				if(name.equalsIgnoreCase("Poker Test")) {
+					
+					try {
+						FileReader reader = new FileReader("src/Cards.txt");
+						Scanner file = new Scanner(reader);
+						int handNumber = 0;
+						
+						while(file.hasNextInt() && handNumber < 10) {
+							
+							String n1 = null;
+							String n2 = null;
+							handNumber++;
+							
+							String nnn = file.next();
+							System.out.println(nnn);
+							
+							if(nnn.length() == 2){
+								String part1 = nnn.substring(0, 1);
+								String part2 = nnn.substring(1, 2);
+								
+								switch(Integer.parseInt(part1)) {
+								
+								case 1: n1 = "Ace"; break;
+								case 2: n1 = "Two"; break;
+								case 3: n1 = "Three"; break;
+								case 4: n1 = "Four"; break;
+								case 5: n1 = "Five"; break;
+								case 6: n1 = "Six"; break;
+								case 7: n1 = "Seven"; break;
+								case 8: n1 = "Eight"; break;
+								case 9: n1 = "Nine"; break;
+								
+								
+								}
+								
+								switch(Integer.parseInt(part2)) {
+								case 1: n2 = "Clubs"; break;
+								case 2: n2 = "Diamonds"; break;
+								case 3: n2 = "Hearts"; break;
+								case 4: n2 = "Spades"; break;
+								
+								
+								}
+							
+							}
+							else if(nnn.length() == 3) {
+								
+								String part1 = nnn.substring(0, 2);
+								String part2 = nnn.substring(2, 3);
+								
+								switch(Integer.parseInt(part1)) {
+								case 10: n1 = "Ten"; break;
+								case 11: n1 = "Jack"; break;
+								case 12: n1 = "Queen"; break;
+								case 13: n1 = "King"; break;
+								
+								}
+								
+								switch(Integer.parseInt(part2)) {
+								case 1: n2 = "Clubs"; break;
+								case 2: n2 = "Diamonds"; break;
+								case 3: n2 = "Hearts"; break;
+								case 4: n2 = "Spades"; break;
+								
+								}
+								
+							}
+							//evaluate the card and if its good then display it?? 
+							display.append(String.format("%n%3s", "Hand: " + handNumber + " " + n1 + " of " + n2 + " ----> " + "EVALUATION DISPLAY HERE"));
+							
+							}
+						
+						handNumber = 0;
+						file.close();
+						
+					}
+					catch (FileNotFoundException e) {
+						
+						display.append("Error processing file " + e);
+					}
+				
+					
+				}
+				
+				else if(name.equalsIgnoreCase("Poker simulation")) {
+					
+					display.append(String.format("%3s", "poker"));
+					
+				}
+				
+				
+				
+			}
+			
+			
+		}
+		ActionListener list = new ButtonListener();
+		button.addActionListener(list);
+		
+		return button;
+		
+	}
+	
+	
+	
+	
+	private JButton pokerTestButton;
+	private JButton pokerSimulationButton;
+	private JPanel controlPanel;
+	private JTextArea display;
+	
+
+}
