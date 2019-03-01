@@ -1,0 +1,122 @@
+import java.awt.BorderLayout;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.geom.Line2D;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+public class PolygonPanel extends JFrame{
+	
+	public PolygonPanel() {
+
+		
+		buttonPanel = new JPanel();
+		sideLabel = new JLabel("# Sides =");
+		sidesField = new JTextField(5);
+		length = new JLabel("Side Length = ");
+		lengths = new JTextField(5);
+		drawButton =  makeButton("Draw");
+		
+		buttonPanel.add(sideLabel);
+		buttonPanel.add(sidesField);
+		buttonPanel.add(length);
+		buttonPanel.add(lengths);
+		buttonPanel.add(drawButton);		
+		add(buttonPanel,BorderLayout.NORTH);
+		
+		done = false;
+	
+	}
+	public void run(int side, int sidelength){
+		sidenum = side;
+		sidelengths = sidelength;
+	}
+	
+	public void paint(Graphics g){
+		super.paint(g);
+		Graphics2D g2 = (Graphics2D)g;
+		
+		if(sidenum < 3 || sidelengths < 3) return;		
+		if(done) drawPolygon(g2);
+	}	
+	public void increment(int i){
+		angleAOB = 360/sidenum;
+		angleBOD = angleAOB/2;
+		radius = (sidelengths/2) / Math.sin(Math.toRadians(angleBOD));
+		angleIncrement = 360/sidenum;
+		angle = 90 - angleIncrement*i;
+	} 
+	
+	public void drawPolygon(Graphics2D g2){
+		sides = sidenum;
+		x2 = 200;
+		y2 = 250;
+		boolean first = true;
+		for (int i = 0; i <= sides; i++){
+			
+			x1 = findx(radius, angle);
+			y1 = findy(radius, angle);
+			increment(i);
+		
+			x2 = findx(radius, angle);
+			y2 = findy(radius, angle);
+			increment(i);
+
+			if (!first){
+				g2.draw(new Line2D.Double(x1 + getWidth()/2 , y1 + getHeight()/2 ,x2 + getWidth()/2, y2 + getHeight()/2));
+			}
+			first = false;
+			
+		}
+	}
+	
+	public JButton makeButton(String name) {
+		JButton button = new JButton(name);
+		
+		class ButtonListener implements ActionListener {
+			
+			public void actionPerformed(ActionEvent event) {
+			
+			try {
+				int sidenum = Integer.parseInt(sidesField.getText());
+				int sidelength = Integer.parseInt(lengths.getText());
+				run(sidenum,sidelength);
+				done = true;
+			}
+			catch(NumberFormatException e) {
+				System.out.println("noooo");
+			}
+			}
+		}
+		ActionListener list = new ButtonListener();
+		button.addActionListener(list);
+		
+		return button;
+	}
+	
+	public double findx(double radius, double angle){
+		double x = radius * Math.cos(Math.toRadians(angle));
+		return x;
+	}
+	
+	public double findy(double radius, double angle){
+		double y = radius * Math.sin(Math.toRadians(angle));
+		return y;
+	}
+	
+	private double sides, angleAOB, angleBOD, radius, angle, angleIncrement, x1, x2, y1, y2;
+	private int sidenum, sidelengths;
+	private JPanel buttonPanel;
+	private JLabel sideLabel;
+	private JTextField sidesField;
+	private JLabel length;
+	private JTextField lengths;
+	private JButton drawButton;
+	private boolean done;
+
+
+}
