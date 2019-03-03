@@ -1,0 +1,77 @@
+import java.util.ArrayList;
+
+public class Bank {
+	
+	public Bank() {
+		
+		
+	}
+	
+	public double getBalance( ArrayList<Double>accBals) {
+					balance = accBals.get(0);
+
+		for(int i = 1; i < accBals.size(); i++) {
+			if(accBals.get(i) > balance) {
+				balance = accBals.get(i);
+			}
+			else
+				continue;
+		}
+		
+		
+		return balance;
+	}
+	public int getAcc(ArrayList<Double>accBals, ArrayList<Integer>accNums) {
+					balance = accBals.get(0);
+
+		for(int i = 1; i < accBals.size(); i++) {
+			if(accBals.get(i) > balance) {
+				f = accNums.get(i);
+				
+				
+			}
+			else continue;
+		}
+					
+		
+		return  f;
+	}
+	
+	public String getAccountInfo(ArrayList<Integer>accNums, ArrayList<Double>accBals) throws BadDataException{
+		
+		for(int i = 0; i < accNums.size(); i++) {
+			
+			if(accNums.get(i) < 0) {
+				throw new BadDataException("Bad data");
+			}
+			else if(accNums.get(i) != (int)accNums.get(i)) {
+				throw new BadDataException("Bad");
+			}
+			else {
+				accounts = this.getAcc(accBals, accNums);
+			}
+			
+			
+		}
+		for(int j = 0; j < accBals.size(); j++) {
+					
+			if(accBals.get(j) < 0) {
+				throw new BadDataException("Bad data");
+			}
+			else {
+				balance = this.getBalance(accBals);
+			}
+				
+			
+		}
+	
+		
+		
+		return "account: " + accounts + " balance: " + balance ;
+	}
+	
+	private int accounts;
+	private double balance;
+	private int f;
+
+}
