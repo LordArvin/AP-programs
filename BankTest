@@ -1,0 +1,71 @@
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
+public class BankTest {
+	
+	public static void main (String [] args) {
+		
+		Scanner console = new Scanner(System.in);
+		boolean done = false;
+		ArrayList<Integer> accNums = new ArrayList();
+		ArrayList<Double> accBals = new ArrayList();
+	do {	
+		try {		
+			
+			
+				System.out.println("Enter the file name (Q to quit)");
+				String fileName = console.next();
+				
+				if(fileName.equalsIgnoreCase("Q")) {
+					done = true;
+					break;
+				}
+				
+				FileReader file = new FileReader("src/" + fileName);
+				Scanner reader = new Scanner(file);
+				
+				do {
+					int accNum = reader.nextInt();
+					accNums.add(accNum);
+					double accBal = reader.nextDouble();
+					accBals.add(accBal);
+				}
+				while(reader.hasNext());
+				
+				Bank a = new Bank();
+				System.out.println("Highest Balance: " + a.getAccountInfo(accNums, accBals));
+				
+			accBals.clear();
+			accNums.clear();
+			
+		}
+		catch(BadDataException e) {
+			System.out.println(e.getMessage());
+			done = false;
+			continue;
+		}
+		catch(InputMismatchException e) {
+			System.out.println(e);
+			done = false;
+			continue;
+		}
+		catch(FileNotFoundException e) {
+			System.out.println(e);
+			done = false;
+			continue;
+		}
+		
+				
+		}
+		while(done == false);
+		
+			console.close();
+		
+
+		
+	}
+
+}
